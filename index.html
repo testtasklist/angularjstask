@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" ng-app="todo">
+<head>
+
+	<title>Angularjs list with comments</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/libs/jquery.min.js"></script>
+	<script src="js/libs/angular.min.js"></script>
+	<script src="js/libs/angular-local-storage.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/directives/angular.editInPlace.js"></script>
+	<script src="js/directives/angular.ngEnter.js"></script>
+
+</head>
+<body ng-controller="ListCtrl" ng-init="init()">
+	<div class="wrapper">
+		<aside class="aside">
+			<h1>Main</h1>
+			<ul>
+				<li>Overview</li>
+			</ul>
+		</aside>
+		<main class="main">
+				<div class="items-box">
+					<h1>Items</h1>
+					<div class="form-group">
+						<input class="input-field" type="text" ng-model="newTodoName" placeholder="Type name here...">
+						<button class="add-btn" ng-click="addListName()">Add new</button>
+					</div>
+					<div>
+						<ul class="list-unstyled" ng-model="todos.name" ng-repeat="todos in model track by $index">
+							<li  class="list-item list-group-item" ng-class="{'active' : currentShow === $index}" ng-click="changeList($index)">
+								<a href="#">
+									{{todos.name}}
+									<span class="badge-style">{{todos.list.length}}</span>
+								</a>
+								<button type="button" class="delete-button" aria-hidden="true" ng-click="deleteListName(todo)">Delete</button>
+							</li>
+						</ul>	
+					</div>	
+				</div>
+				<div class="comments-box">	
+					<div>
+						<h1>Comments</h1>
+						<ul class="list-unstyled" ng-model="todos.list" ng-show="$index === currentShow" ng-repeat="todos in model track by $index">
+							<li class="list-item" ng-repeat="todo in todos.list">
+								<div class="comment-icon"></div>
+								<edit-in-place value="todo.taskName"></edit-in-place>
+							</li>
+						</ul>
+					</div>
+					<div class="comment-field">
+						<div class="comment-icon"></div>
+						<textarea class="input-field" type="text" ng-model="newTodo" ng-enter></textarea>
+					</div>			
+				</div>
+		</main>
+	</div>
+</body>
+</html>
